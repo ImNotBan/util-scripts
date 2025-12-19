@@ -1,59 +1,51 @@
-# Folder Batch Creator
+# System Update Script
 
-Script en Bash que permite crear múltiples carpetas de forma automática a partir de un nombre base y un número indicado por el usuario.
+Script en Bash para actualizar y limpiar un sistema basado en Debian/Ubuntu de forma segura y automatizada.
 
 ## Descripción
-Este script solicita al usuario:
-1. El número de carpetas que desea crear.
-2. El nombre base de las carpetas.
+Este script realiza una actualización completa del sistema utilizando `apt`.  
+Antes de ejecutarse, comprueba que el usuario tenga permisos de administrador (root), ya que las operaciones de gestión de paquetes lo requieren.
 
-A partir de estos datos, crea carpetas numeradas de forma secuencial, manteniendo un formato de dos dígitos (`01`, `02`, etc.).
+El proceso incluye:
+- Actualización de la lista de paquetes
+- Actualización de los paquetes instalados
+- Eliminación de paquetes innecesarios
+- Limpieza de la caché de paquetes
 
 ## Funcionamiento
-- Valida que el número introducido sea un valor numérico.
-- Genera carpetas con el siguiente formato:
-  ```
-  nombre01
-  nombre02
-  nombre03
-  ...
-  ```
+1. Verifica que el script se ejecute como root.
+2. Ejecuta `apt update`.
+3. Ejecuta `apt upgrade -y`.
+4. Ejecuta `apt autoremove -y`.
+5. Ejecuta `apt autoclean`.
+6. Detiene la ejecución si ocurre cualquier error durante el proceso.
 
 ## Uso
-Dar permisos de ejecución al script:
+Dar permisos de ejecución:
 ```bash
-chmod +x create_folders.sh
+chmod +x system_update.sh
 ```
 
-Ejecutar el script:
+Ejecutar el script con privilegios de administrador:
 ```bash
-./create_folders.sh
+sudo ./system_update.sh
 ```
 
-## Ejemplo
-Entrada del usuario:
-```text
-How many folders do you want to create? 5
-Enter base folder name: folder
-```
+## Salida esperada
+Durante la ejecución se mostrarán mensajes informativos indicando cada paso del proceso y se notificará si ocurre algún error.
 
-Resultado:
+Al finalizar correctamente:
 ```text
-folder01
-folder02
-folder03
-folder04
-folder05
+System updated successfully.
 ```
 
 ## Notas
-- Las carpetas se crean en el directorio desde el que se ejecuta el script.
-- Si se introduce un valor no numérico, el script se detiene mostrando un mensaje de error.
-- El script no sobrescribe carpetas existentes.
+- Diseñado para sistemas basados en Debian/Ubuntu (Kali, Ubuntu, Debian, etc.).
+- No debe ejecutarse sin permisos de administrador.
+- Detiene la ejecución automáticamente si algún comando falla.
 
 ## Propósito
-Script desarrollado con fines educativos para practicar:
-- Entrada de datos por terminal
-- Validación básica
-- Uso de bucles en Bash
-- Automatización de tareas simples en Linux
+Script desarrollado con fines educativos y prácticos para:
+- Automatizar el mantenimiento básico del sistema
+- Practicar control de errores en Bash
+- Comprender la gestión de paquetes en Linux
